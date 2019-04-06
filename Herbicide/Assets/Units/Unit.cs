@@ -26,7 +26,12 @@ public abstract class Unit : MonoBehaviour
     protected Vector2 position;
     protected Dictionary<DamageType, int> damageResistance;
     protected TeamType team;
+    [SerializeField]
     protected string unitName;
+    [SerializeField]
+    protected string displayInfo;
+    [SerializeField]
+    protected Sprite profileImage;
 
     /// <summary>
     /// The team that the unit belongs to
@@ -58,9 +63,44 @@ public abstract class Unit : MonoBehaviour
         get { return unitName; }
     }
 
+    /// <summary>
+    /// The info to be displayed when the unit is selected
+    /// </summary>
+    public string UnitDescription
+    {
+        get { return displayInfo; }
+    }
+
+    /// <summary>
+    /// The type of damage that the unit deals
+    /// </summary>
     public DamageType DamageType
     {
-        get { return DamageType; }
+        get { return damageType; }
+    }
+
+    /// <summary>
+    /// The unit's current health
+    /// </summary>
+    public int Health
+    {
+        get { return health; }
+    }
+
+    /// <summary>
+    /// The amount of damage the unit deals
+    /// </summary>
+    public int Damage
+    {
+        get { return damage; }
+    }
+
+    /// <summary>
+    /// The units damage resistances, 0 for weak against, 1 for strong against.
+    /// </summary>
+    public Dictionary<DamageType, int> Resistances
+    {
+        get { return damageResistance; }
     }
 
     protected virtual void Start()
@@ -68,6 +108,7 @@ public abstract class Unit : MonoBehaviour
         health = maxHealth;
         currentMoveRange = moveRange;
         Board.endTurn += OnTurnEnd;
+        damageResistance = new Dictionary<DamageType, int>();
     }
 
     /// <summary>

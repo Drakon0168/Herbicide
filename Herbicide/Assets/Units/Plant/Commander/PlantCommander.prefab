@@ -96,3 +96,7 @@ MonoBehaviour:
   damage: 4
   damageType: 0
   moveRange: 1
+  currentMoveRange: 0
+  unitName: Plant Commander
+  displayInfo: The Plant Team's Commander, when it dies the robots win.
+  profileImage: {fileID: 0}

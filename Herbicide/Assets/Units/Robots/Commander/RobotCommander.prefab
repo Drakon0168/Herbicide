@@ -94,4 +94,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 25
   damage: 5
+  damageType: 0
   moveRange: 2
+  currentMoveRange: 0
+  unitName: Robot Commander
+  displayInfo: The Robot Team's Commander, when it dies the plants win.
+  profileImage: {fileID: 0}

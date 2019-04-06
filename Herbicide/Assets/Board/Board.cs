@@ -20,6 +20,8 @@ public class Board : MonoBehaviour
     private Vector2 plantStart;
     [SerializeField]
     private Vector2 robotStart;
+    [SerializeField]
+    private UnitDisplay display;
     private static Dictionary<Vector2, Tile> tiles;
     [SerializeField]
     private GameObject TilePrefab;
@@ -70,6 +72,8 @@ public class Board : MonoBehaviour
         resetGame += ResetBoard;
         resetGame();
 
+        display.gameObject.SetActive(false);
+
         UpdateUI();
     }
 
@@ -92,11 +96,21 @@ public class Board : MonoBehaviour
     /// <summary>
     /// Selects the tile at the given position
     /// </summary>
-    public  void SelectTile(Vector2 position)
+    public void SelectTile(Vector2 position)
     {
         if (tiles.ContainsKey(position))
         {
-            switch(selectionState)
+            if (tiles[position].OccupyingUnit != null)
+            {
+                display.gameObject.SetActive(true);
+                display.DisplayUnit(tiles[position].OccupyingUnit);
+            }
+            else
+            {
+                display.gameObject.SetActive(false);
+            }
+
+            switch (selectionState)
             {
                 case SelectionState.Unit:
                     DeselectTiles();
@@ -138,7 +152,7 @@ public class Board : MonoBehaviour
                             break;
                     }
                     break;
-            };
+            }
         }
     }
 
