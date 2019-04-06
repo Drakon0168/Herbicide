@@ -17,12 +17,16 @@ public abstract class Unit : MonoBehaviour
     [SerializeField]
     protected int damage;
     [SerializeField]
+    protected DamageType damageType;
+    [SerializeField]
     protected float moveRange;
-    protected float currentMoveRange;
+    [HideInInspector]
+    public float currentMoveRange;
     [HideInInspector]
     protected Vector2 position;
     protected Dictionary<DamageType, int> damageResistance;
     protected TeamType team;
+    protected string unitName;
 
     /// <summary>
     /// The team that the unit belongs to
@@ -46,9 +50,31 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    void Start()
+    /// <summary>
+    /// The name of the unit to be displayed when it is selected
+    /// </summary>
+    public string UnitName
+    {
+        get { return unitName; }
+    }
+
+    public DamageType DamageType
+    {
+        get { return DamageType; }
+    }
+
+    protected virtual void Start()
     {
         health = maxHealth;
+        currentMoveRange = moveRange;
+        Board.endTurn += OnTurnEnd;
+    }
+
+    /// <summary>
+    /// Called when the turn ends
+    /// </summary>
+    public void OnTurnEnd()
+    {
         currentMoveRange = moveRange;
     }
 
@@ -81,7 +107,7 @@ public abstract class Unit : MonoBehaviour
         
         selectedPositions[0].Add(position);
 
-        for (int i = 0; i < moveRange; i++)
+        for (int i = 0; i < currentMoveRange; i++)
         {
             foreach (Vector2 vector in selectedPositions[0])
             {

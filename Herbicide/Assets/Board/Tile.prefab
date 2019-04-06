@@ -93,6 +93,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 80bccedcad69236479fe5f29e66a1775, type: 3}
-  - {fileID: 21300000, guid: ea19829cf50899e4f807c6c8a61d21aa, type: 3}
-  - {fileID: 21300000, guid: 888eec565ac4a1847a48aeef997e5cbe, type: 3}
+  - {fileID: 21300000, guid: d2e909b55aa5b694a8d25430b0b0912c, type: 3}
+  - {fileID: 21300000, guid: 079da0dd8fa48b047ad2ad0f46198652, type: 3}
+  - {fileID: 21300000, guid: df31d355f3e1ca64d9dd1e8aae9e1994, type: 3}

@@ -14,9 +14,7 @@ public class Team : MonoBehaviour
     [SerializeField]
     private GameObject commanderPrefab;
     private Commander commander;
-    [SerializeField]
     private int currency;
-    [SerializeField]
     private int currencyPerTurn;
     private Vector2 startPosition;
     public TeamType teamType;
@@ -48,6 +46,33 @@ public class Team : MonoBehaviour
     void Start()
     {
         units = new List<Unit>();
+
+        Board.endTurn += OnTurnEnd;
+        Board.resetGame += ResetTeam;
+
+        ResetTeam();
+    }
+
+    /// <summary>
+    /// Called when the commander dies, ends the game
+    /// </summary>
+    public void CommanderDeath()
+    {
+        foreach(Unit unit in units)
+        {
+            unit.Die();
+        }
+
+        //TODO: add a delay for the end game animations to play
+        Board.resetGame();
+    }
+
+    /// <summary>
+    /// Called when the turn ends
+    /// </summary>
+    public void OnTurnEnd()
+    {
+        currency += currencyPerTurn;
     }
 
     /// <summary>
@@ -61,6 +86,22 @@ public class Team : MonoBehaviour
         commander = Instantiate(commanderPrefab, new Vector3(startPosition.x + 0.5f, startPosition.y + 0.5f, -0.5f), Quaternion.Euler(0, 0, 0), transform).GetComponent<Commander>();
         commander.Position = startPosition;
         commander.Team = teamType;
+        commander.commanderDeath += CommanderDeath;
         Board.Tiles[startPosition].OccupyingUnit = commander;
+    }
+
+    /// <summary>
+    /// Called when the game ends, resets the team to its default state
+    /// </summary>
+    public void ResetTeam()
+    {
+        foreach(Unit unit in units)
+        {
+            Destroy(unit.gameObject);
+        }
+
+        units.Clear();
+        currency = 1;
+        currencyPerTurn = 2;
     }
 }

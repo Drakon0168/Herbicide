@@ -8,13 +8,9 @@ public class Commander : Unit
 {
     public CommanderDeath commanderDeath;
 
-    void Start()
+    protected override void Start()
     {
-    }
-    
-    void Update()
-    {
-        
+        base.Start();
     }
 
     public override void Die()

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public delegate void EndTurn();
+public delegate void ResetGame();
 
 public enum SelectionState
 {
@@ -26,7 +27,8 @@ public class Board : MonoBehaviour
     private List<Team> teams;
     private int turnStage;
     private int turn;
-    public EndTurn endTurn;
+    public static EndTurn endTurn;
+    public static ResetGame resetGame;
     private SelectionState selectionState;
     private Unit selectedUnit;
 
@@ -63,40 +65,12 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        //Set up the tile ditionary
         tiles = new Dictionary<Vector2, Tile>();
 
-        for(int x = 0; x < boardSize.x; x++)
-        {
-            for(int y = 0; y < boardSize.y; y++)
-            {
-                Tile newTile = Instantiate(TilePrefab, new Vector2(x + 0.5f, y + 0.5f), Quaternion.Euler(0, 0, 0), transform).GetComponent<Tile>();
-                newTile.Terrain = TileState.Dirt;
-                tiles.Add(new Vector2(x, y), newTile);
-            }
-        }
+        resetGame += ResetBoard;
+        resetGame();
 
-        //Set up the player starts
-        for(int x = -1; x <= 1; x++)
-        {
-            for(int y = -1; y <= 1; y++)
-            {
-                if(tiles.ContainsKey(plantStart + new Vector2(x, y)))
-                {
-                    tiles[plantStart + new Vector2(x, y)].Terrain = TileState.Grass;
-                }
-
-                if (tiles.ContainsKey(robotStart + new Vector2(x, y)))
-                {
-                    tiles[robotStart + new Vector2(x, y)].Terrain = TileState.Metal;
-                }
-            }
-        }
-
-        teams[0].SetStart(plantStart);
-        teams[1].SetStart(robotStart);
-
-        selectionState = SelectionState.Unit;
+        UpdateUI();
     }
 
     void Update()
@@ -145,6 +119,16 @@ public class Board : MonoBehaviour
                             selectionState = SelectionState.Unit;
                             break;
                         case HighlightState.Move:
+                            Vector2 distance = new Vector2(Mathf.Abs(position.x - selectedUnit.Position.x), Mathf.Abs(position.y - selectedUnit.Position.y));
+                            if (distance.x < distance.y)
+                            {
+                                selectedUnit.currentMoveRange -= distance.x * 2 + (distance.y - distance.x);
+                            }
+                            else
+                            {
+                                selectedUnit.currentMoveRange -= distance.y * 2 + (distance.x - distance.y);
+                            }
+
                             tiles[selectedUnit.Position].OccupyingUnit = null;
                             selectedUnit.Position = position;
                             tiles[selectedUnit.Position].OccupyingUnit = selectedUnit;
@@ -215,9 +199,17 @@ public class Board : MonoBehaviour
             turn++;
         }
 
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Updates the Turn and Currency UI to show the correct information
+    /// </summary>
+    public void UpdateUI()
+    {
         TurnDisplay.text = "Turn: " + turn + "\n";
 
-        if(teams[turnStage].teamType == TeamType.Plants)
+        if (teams[turnStage].teamType == TeamType.Plants)
         {
             TurnDisplay.text += "Plants";
         }
@@ -225,7 +217,46 @@ public class Board : MonoBehaviour
         {
             TurnDisplay.text += "Robots";
         }
-        
+
         currencyDisplay.text = "Current Currency: " + teams[turnStage].Currency + "\nCurrency Per Turn: " + teams[turnStage].CurrencyPerTurn;
+    }
+    
+    /// <summary>
+    /// Resets the board to it's default state
+    /// </summary>
+    public void ResetBoard()
+    {
+        //Set up the tile ditionary
+        for (int x = 0; x < boardSize.x; x++)
+        {
+            for (int y = 0; y < boardSize.y; y++)
+            {
+                Tile newTile = Instantiate(TilePrefab, new Vector2(x + 0.5f, y + 0.5f), Quaternion.Euler(0, 0, 0), transform).GetComponent<Tile>();
+                newTile.Terrain = TileState.Dirt;
+                tiles.Add(new Vector2(x, y), newTile);
+            }
+        }
+
+        //Set up the player starts
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (tiles.ContainsKey(plantStart + new Vector2(x, y)))
+                {
+                    tiles[plantStart + new Vector2(x, y)].Terrain = TileState.Grass;
+                }
+
+                if (tiles.ContainsKey(robotStart + new Vector2(x, y)))
+                {
+                    tiles[robotStart + new Vector2(x, y)].Terrain = TileState.Metal;
+                }
+            }
+        }
+
+        teams[0].SetStart(plantStart);
+        teams[1].SetStart(robotStart);
+
+        selectionState = SelectionState.Unit;
     }
 }
