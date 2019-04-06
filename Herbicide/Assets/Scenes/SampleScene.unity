@@ -422,25 +422,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1630610684 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4708255433470109916, guid: 890574fd4f471cb40ac96b5594c874bc,
-    type: 3}
-  m_PrefabInstance: {fileID: 4708255435067018272}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1630610685 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4708255433470109917, guid: 890574fd4f471cb40ac96b5594c874bc,
     type: 3}
   m_PrefabInstance: {fileID: 4708255435067018272}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1630610686
+--- !u!114 &1630610686 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1630610686, guid: 890574fd4f471cb40ac96b5594c874bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 4708255435067018272}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630610684}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c79dc4746478a641993252bc1d709c1, type: 3}
@@ -664,83 +658,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 4708255435322852522, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255433837826677, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 350
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255433837826677, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255433837826677, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255433837826677, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255433837826677, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255433837826678, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_Text
-      value: The Plant Team's Commander, does something and maybe something else as
-        wel.ldoes something and maybe something else as well.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255433837826678, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255434078323180, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255434078323180, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255434078323180, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255434078323180, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255434078323180, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -200
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255434078323181, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_Text
-      value: "Health: 30\nDamage: 4\nDamage Type: \nImpact\nResistances:\nImpact:
-        None\nFire: None\nAcid: None"
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708255434078323181, guid: 890574fd4f471cb40ac96b5594c874bc,
-        type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 890574fd4f471cb40ac96b5594c874bc, type: 3}
 --- !u!1001 &6973486468923476052
@@ -820,6 +737,11 @@ PrefabInstance:
       propertyPath: currencyDisplay
       value: 
       objectReference: {fileID: 1312904190}
+    - target: {fileID: 6973486469487491999, guid: a30c13bddd5e1404cb31336877b767ec,
+        type: 3}
+      propertyPath: display
+      value: 
+      objectReference: {fileID: 1630610686}
     - target: {fileID: 6973486469387786447, guid: a30c13bddd5e1404cb31336877b767ec,
         type: 3}
       propertyPath: m_LocalPosition.z
