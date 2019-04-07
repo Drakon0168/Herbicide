@@ -22,7 +22,8 @@ public abstract class Unit : MonoBehaviour
     protected float moveRange;
     [HideInInspector]
     public float currentMoveRange;
-    [HideInInspector]
+    [SerializeField]
+    protected int cost;
     protected Vector2 position;
     protected Dictionary<DamageType, int> damageResistance;
     protected TeamType team;
@@ -101,6 +102,22 @@ public abstract class Unit : MonoBehaviour
     public Dictionary<DamageType, int> Resistances
     {
         get { return damageResistance; }
+    }
+
+    /// <summary>
+    /// The image to be displayed by the unit store and the unit display
+    /// </summary>
+    public Sprite UnitImage
+    {
+        get { return profileImage; }
+    }
+
+    /// <summary>
+    /// The cost to purchase the unit in the store
+    /// </summary>
+    public int Cost
+    {
+        get { return cost; }
     }
 
     protected virtual void Start()
@@ -206,6 +223,7 @@ public abstract class Unit : MonoBehaviour
         if(health <= 0)
         {
             health = 0;
+            Die();
         }
     }
 }

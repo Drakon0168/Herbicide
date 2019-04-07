@@ -9,7 +9,9 @@ public delegate void ResetGame();
 public enum SelectionState
 {
     Unit,
-    Action
+    Action,
+    DisplayEnemy,
+    PurchaseUnit
 }
 
 public class Board : MonoBehaviour
@@ -22,6 +24,10 @@ public class Board : MonoBehaviour
     private Vector2 robotStart;
     [SerializeField]
     private UnitDisplay display;
+    [SerializeField]
+    private UnitShop shop;
+    [SerializeField]
+    private GameObject attackButton;
     private static Dictionary<Vector2, Tile> tiles;
     [SerializeField]
     private GameObject TilePrefab;
@@ -33,6 +39,8 @@ public class Board : MonoBehaviour
     public static ResetGame resetGame;
     private SelectionState selectionState;
     private Unit selectedUnit;
+    private Unit selectedEnemy;
+    private Vector2 selectedPosition;
 
     [Space]
     [Header("UI Elements")]
@@ -73,6 +81,10 @@ public class Board : MonoBehaviour
         resetGame();
 
         display.gameObject.SetActive(false);
+        attackButton.SetActive(false);
+
+        shop.SetupShop(teams);
+        shop.HideShop();
 
         UpdateUI();
     }
@@ -122,6 +134,29 @@ public class Board : MonoBehaviour
                         selectedUnit.Select();
                         selectionState = SelectionState.Action;
                     }
+
+                    if(tiles[position].OccupyingUnit == null)
+                    {
+                        switch (tiles[position].Terrain)
+                        {
+                            case TileState.Dirt:
+                                break;
+                            case TileState.Grass:
+                                if (teams[turnStage].teamType == TeamType.Plants)
+                                {
+                                    selectionState = SelectionState.PurchaseUnit;
+                                    shop.DisplayShop(teams[turnStage]);
+                                }
+                                break;
+                            case TileState.Metal:
+                                if (teams[turnStage].teamType == TeamType.Robots)
+                                {
+                                    selectionState = SelectionState.PurchaseUnit;
+                                    shop.DisplayShop(teams[turnStage]);
+                                }
+                                break;
+                        }
+                    }
                     break;
                 case SelectionState.Action:
                     switch (tiles[position].Highlight)
@@ -146,11 +181,37 @@ public class Board : MonoBehaviour
                             tiles[selectedUnit.Position].OccupyingUnit = null;
                             selectedUnit.Position = position;
                             tiles[selectedUnit.Position].OccupyingUnit = selectedUnit;
+
+                            if(selectedUnit.Team == TeamType.Plants)
+                            {
+                                tiles[position].Terrain = TileState.Grass;
+                            }
+                            else
+                            {
+                                tiles[position].Terrain = TileState.Metal;
+                            }
+
                             DeselectTiles();
                             selectedUnit.Select();
                             tiles[selectedUnit.Position].Highlight = HighlightState.Selected;
                             break;
+                        case HighlightState.Attack:
+                            selectionState = SelectionState.DisplayEnemy;
+                            selectedEnemy = tiles[position].OccupyingUnit;
+                            attackButton.SetActive(true);
+                            break;
                     }
+                    break;
+                case SelectionState.DisplayEnemy:
+                    if(!(position == selectedUnit.Position || position == selectedEnemy.Position))
+                    {
+                        selectionState = SelectionState.Action;
+                        attackButton.SetActive(false);
+                        selectedEnemy = null;
+                    }
+                    break;
+                case SelectionState.PurchaseUnit:
+                    
                     break;
             }
         }
@@ -213,6 +274,8 @@ public class Board : MonoBehaviour
             turn++;
         }
 
+        shop.HideShop();
+
         UpdateUI();
     }
 
@@ -241,6 +304,13 @@ public class Board : MonoBehaviour
     public void ResetBoard()
     {
         //Set up the tile ditionary
+        foreach(KeyValuePair<Vector2, Tile> pair in tiles)
+        {
+            Destroy(pair.Value.gameObject);
+        }
+
+        tiles.Clear();
+
         for (int x = 0; x < boardSize.x; x++)
         {
             for (int y = 0; y < boardSize.y; y++)
@@ -271,6 +341,51 @@ public class Board : MonoBehaviour
         teams[0].SetStart(plantStart);
         teams[1].SetStart(robotStart);
 
+        turn = 0;
+        turnStage = 0;
+
         selectionState = SelectionState.Unit;
+
+        UpdateUI();
+        display.gameObject.SetActive(false);
+        attackButton.SetActive(false);
+    }
+
+    /// <summary>
+    /// Uses the currently selected enemy to attack the currently seleccted enemy
+    /// </summary>
+    public void Attack()
+    {
+        if(selectedUnit != null && selectedEnemy != null)
+        {
+            selectedEnemy.takeDamage(selectedUnit.Damage, selectedUnit.DamageType);
+            display.refreshDisplay();
+        }
+        else
+        {
+            Debug.Log("Called attack when there is no selected unit / enemy");
+        }
+    }
+
+    /// <summary>
+    /// Closes the shop
+    /// </summary>
+    public void CloseShop()
+    {
+        shop.HideShop();
+        selectionState = SelectionState.Unit;
+    }
+
+    /// <summary>
+    /// Spawns a unit on the selected tile
+    /// </summary>
+    public void SpawnUnit(GameObject unit)
+    {
+        if(selectedPosition != null)
+        {
+            Unit newUnit = Instantiate(unit, transform).GetComponent<Unit>();
+            newUnit.Position = selectedPosition;
+            tiles[selectedPosition].OccupyingUnit = newUnit;
+        }
     }
 }

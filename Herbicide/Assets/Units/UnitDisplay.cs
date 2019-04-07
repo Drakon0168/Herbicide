@@ -13,9 +13,17 @@ public class UnitDisplay : MonoBehaviour
     private Text unitDescription;
     [SerializeField]
     private Text unitStats;
+    private Unit displayedUnit;
+
+    public void refreshDisplay()
+    {
+        DisplayUnit(displayedUnit);
+    }
 
     public void DisplayUnit(Unit unit)
     {
+        displayedUnit = unit;
+        image.sprite = unit.UnitImage;
         unitName.text = unit.UnitName;
         unitDescription.text = unit.UnitDescription;
         string stats = "Health: " + unit.Health + "\nDamage: " + unit.Damage + "\nDamage Type\n";

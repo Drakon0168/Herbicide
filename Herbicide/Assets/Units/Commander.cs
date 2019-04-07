@@ -19,7 +19,7 @@ public class Commander : Unit
         {
             commanderDeath();
         }
-        
+
         base.Die();
     }
 }

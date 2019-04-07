@@ -13,6 +13,7 @@ public class Team : MonoBehaviour
     private List<Unit> units;
     [SerializeField]
     private GameObject commanderPrefab;
+    public List<GameObject> unitPrefabs;
     private Commander commander;
     private int currency;
     private int currencyPerTurn;
@@ -95,12 +96,18 @@ public class Team : MonoBehaviour
     /// </summary>
     public void ResetTeam()
     {
-        foreach(Unit unit in units)
+        foreach (Unit unit in units)
         {
             Destroy(unit.gameObject);
         }
 
+        if (commander != null)
+        {
+            Destroy(commander.gameObject);
+        }
+
         units.Clear();
+
         currency = 1;
         currencyPerTurn = 2;
     }
