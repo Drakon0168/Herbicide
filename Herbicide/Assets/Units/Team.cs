@@ -26,6 +26,7 @@ public class Team : MonoBehaviour
     public int Currency
     {
         get { return currency; }
+        set { currency = value; }
     }
 
     /// <summary>

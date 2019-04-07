@@ -37,10 +37,10 @@ public class Board : MonoBehaviour
     private int turn;
     public static EndTurn endTurn;
     public static ResetGame resetGame;
-    private SelectionState selectionState;
+    private static SelectionState selectionState;
     private Unit selectedUnit;
     private Unit selectedEnemy;
-    private Vector2 selectedPosition;
+    private static Vector2 selectedPosition;
 
     [Space]
     [Header("UI Elements")]
@@ -71,6 +71,20 @@ public class Board : MonoBehaviour
     public int Turn
     {
         get { return turn; }
+    }
+
+    /// <summary>
+    /// The currently selected tile
+    /// </summary>
+    public static Vector2 SelectedPosition
+    {
+        get { return selectedPosition; }
+    }
+
+    public static SelectionState SelectionState
+    {
+        get { return selectionState; }
+        set { selectionState = value; }
     }
 
     private void Start()
@@ -145,6 +159,7 @@ public class Board : MonoBehaviour
                                 if (teams[turnStage].teamType == TeamType.Plants)
                                 {
                                     selectionState = SelectionState.PurchaseUnit;
+                                    selectedPosition = position;
                                     shop.DisplayShop(teams[turnStage]);
                                 }
                                 break;
@@ -152,6 +167,7 @@ public class Board : MonoBehaviour
                                 if (teams[turnStage].teamType == TeamType.Robots)
                                 {
                                     selectionState = SelectionState.PurchaseUnit;
+                                    selectedPosition = position;
                                     shop.DisplayShop(teams[turnStage]);
                                 }
                                 break;
@@ -211,7 +227,6 @@ public class Board : MonoBehaviour
                     }
                     break;
                 case SelectionState.PurchaseUnit:
-                    
                     break;
             }
         }
@@ -245,7 +260,7 @@ public class Board : MonoBehaviour
     /// <summary>
     /// Deselects all selected tiles
     /// </summary>
-    public void DeselectTiles()
+    public static void DeselectTiles()
     {
         foreach(KeyValuePair<Vector2, Tile> pair in tiles)
         {
@@ -374,18 +389,5 @@ public class Board : MonoBehaviour
     {
         shop.HideShop();
         selectionState = SelectionState.Unit;
-    }
-
-    /// <summary>
-    /// Spawns a unit on the selected tile
-    /// </summary>
-    public void SpawnUnit(GameObject unit)
-    {
-        if(selectedPosition != null)
-        {
-            Unit newUnit = Instantiate(unit, transform).GetComponent<Unit>();
-            newUnit.Position = selectedPosition;
-            tiles[selectedPosition].OccupyingUnit = newUnit;
-        }
     }
 }

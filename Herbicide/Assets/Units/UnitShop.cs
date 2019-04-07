@@ -26,7 +26,8 @@ public class UnitShop : MonoBehaviour
             for (int i = 0; i < team.unitPrefabs.Count; i++)
             {
                 UnitShopItem newItem = Instantiate(shopItemPrefab, transform).GetComponent<UnitShopItem>();
-                newItem.DisplayShop(team.unitPrefabs[i].GetComponent<Unit>());
+                newItem.SetupItem(team.unitPrefabs[i], team, this);
+                newItem.DisplayShop();
                 shopItems[team].Add(newItem);
 
                 newItem.GetComponent<RectTransform>().position += new Vector3(0, topY + i * 250, 0);
