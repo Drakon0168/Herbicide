@@ -9,6 +9,8 @@ public enum DamageType
     Acid
 }
 
+public delegate void UnitDeath(Unit unit);
+
 public abstract class Unit : MonoBehaviour
 {
     [SerializeField]
@@ -33,6 +35,7 @@ public abstract class Unit : MonoBehaviour
     protected string displayInfo;
     [SerializeField]
     protected Sprite profileImage;
+    public UnitDeath OnDeath;
 
     /// <summary>
     /// The team that the unit belongs to
@@ -197,6 +200,12 @@ public abstract class Unit : MonoBehaviour
     public virtual void Die()
     {
         //Play death animation
+        Destroy(gameObject);
+
+        if(OnDeath != null)
+        {
+            OnDeath(this);
+        }
     }
 
     /// <summary>

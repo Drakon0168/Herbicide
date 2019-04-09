@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void UnitBought();
+
 public class UnitShop : MonoBehaviour
 {
     [SerializeField]
@@ -9,6 +11,7 @@ public class UnitShop : MonoBehaviour
     [SerializeField]
     private GameObject closeShopButton;
     private Dictionary<Team, List<UnitShopItem>> shopItems;
+    public UnitBought unitBought;
 
     // Start is called before the first frame update
     public void SetupShop(List<Team> teams)

@@ -41,7 +41,7 @@ public class UnitDisplay : MonoBehaviour
                 break;
         }
 
-        stats += "\nResistances:\nImpact: ";
+        stats += "\nResistances\nImpact: ";
 
         if (unit.Resistances.ContainsKey(DamageType.Impact))
         {

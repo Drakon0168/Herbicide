@@ -53,8 +53,15 @@ public class UnitShopItem : MonoBehaviour
             Unit newUnit = Instantiate(unitPrefab, team.transform).GetComponent<Unit>();
             newUnit.Position = Board.SelectedPosition;
             newUnit.currentMoveRange = 0;
+            newUnit.Team = team.teamType;
             Board.Tiles[Board.SelectedPosition].OccupyingUnit = newUnit;
             team.Currency -= newUnit.Cost;
+            team.AddUnit(newUnit);
+
+            if(shop.unitBought != null)
+            {
+                shop.unitBought();
+            }
         }
         
         Board.DeselectTiles();

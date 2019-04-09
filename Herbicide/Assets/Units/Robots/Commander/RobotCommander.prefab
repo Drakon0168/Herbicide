@@ -69,8 +69,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: be050d56b6112b04eb6105b760db555d, type: 3}
-  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 30976a675f3294c4d8697270bd859f51, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,6 +97,8 @@ MonoBehaviour:
   damageType: 0
   moveRange: 2
   currentMoveRange: 0
+  cost: 0
+  team: 1
   unitName: Robot Commander
   displayInfo: The Robot Team's Commander, when it dies the plants win.
-  profileImage: {fileID: 0}
+  profileImage: {fileID: 21300000, guid: 14594233851b67c45aabca9f91538d45, type: 3}

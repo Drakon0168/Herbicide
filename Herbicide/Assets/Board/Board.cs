@@ -99,6 +99,7 @@ public class Board : MonoBehaviour
 
         shop.SetupShop(teams);
         shop.HideShop();
+        shop.unitBought += UpdateUI;
 
         UpdateUI();
     }
@@ -214,6 +215,9 @@ public class Board : MonoBehaviour
                         case HighlightState.Attack:
                             selectionState = SelectionState.DisplayEnemy;
                             selectedEnemy = tiles[position].OccupyingUnit;
+                            DeselectTiles();
+                            tiles[selectedUnit.Position].Highlight = HighlightState.Selected;
+                            tiles[position].Highlight = HighlightState.Attack;
                             attackButton.SetActive(true);
                             break;
                     }
@@ -224,9 +228,13 @@ public class Board : MonoBehaviour
                         selectionState = SelectionState.Action;
                         attackButton.SetActive(false);
                         selectedEnemy = null;
+                        selectedUnit.Select();
                     }
                     break;
                 case SelectionState.PurchaseUnit:
+                    DeselectTiles();
+                    shop.HideShop();
+                    selectionState = SelectionState.Unit;
                     break;
             }
         }
@@ -375,6 +383,10 @@ public class Board : MonoBehaviour
         {
             selectedEnemy.takeDamage(selectedUnit.Damage, selectedUnit.DamageType);
             display.refreshDisplay();
+            DeselectTiles();
+            selectionState = SelectionState.Unit;
+            selectedUnit.currentMoveRange = 0;
+            attackButton.SetActive(false);
         }
         else
         {

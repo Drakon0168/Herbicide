@@ -78,6 +78,25 @@ public class Team : MonoBehaviour
     }
 
     /// <summary>
+    /// Removes units from the list of units
+    /// </summary>
+    /// <param name="unit"></param>
+    public void RemoveUnit(Unit unit)
+    {
+        units.Remove(unit);
+    }
+
+    /// <summary>
+    /// Adds a unit to the list of units
+    /// </summary>
+    /// <param name="unit"></param>
+    public void AddUnit(Unit unit)
+    {
+        units.Add(unit);
+        unit.OnDeath += RemoveUnit;
+    }
+
+    /// <summary>
     /// Sets the start position for the team and spawns a commander at that location
     /// </summary>
     /// <param name="position"></param>
